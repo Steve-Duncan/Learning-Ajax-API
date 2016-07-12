@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Pokemon</title>
+			<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+			<script type="text/javascript">
+
+				$(document).ready(function(){					
+					AddPoke();
+				});
+				function AddPoke() {
+					var images=''
+					for (var num=1;num<=151;num++){
+						images += `<img src="http://pokeapi.co/media/img/${num}.png">`				
+					}
+					$("span").append(images)
+				}
+
+			</script>
+	</head>
+
+	<body>
+		<span></span>
+	</body>
+
+</html>
