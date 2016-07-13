@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Pokedex</title>
+			<link rel="stylesheet" type="text/css" href="styles.css">
+			<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+			<script type="text/javascript">
+
+				$(document).ready(function(){					
+					AddPoke();
+
+					$(".images").on('click','span', function(e){
+						// console.log(e.target.id)
+						SelectPoke(e.target.id)
+					});
+
+				});
+				function AddPoke() {
+					var images=''
+					for (var num=1;num<=151;num++){
+						images += `<img src="http://pokeapi.co/media/img/${num}.png" id="${num}">`				
+					}
+					$(".images > span").append(images)
+				}
+				function SelectPoke(id) {
+					// get the pokeman object
+					$.get("http://pokeapi.co/api/v1/pokemon/" + id + "/", function(res) { (res);
+						var poke_div=res.name
+
+						// add the name to pokedex
+						$(".pokedex").html("<h2>" + res.name + "</h2>");
+
+						// get the image and load to pokedex
+						image = `<img src="http://pokeapi.co/media/img/${id}.png">`
+						$(".pokedex").append(image);
+
+						// build list of types and load to pokedex
+    					var html_str = ''
+    					$(".pokedex").append("<h4>Types</h4>");
+    					html_str = "<ul>";
+    					for(var i = 0; i < res.types.length; i++) {
+        					html_str += "<li>" + res.types[i].name + "</li>";
+        				}
+        				$(".pokedex").append(html_str);
+
+        				// get height and add to pokedex
+        				$(".pokedex").append("<h4>Height</h4>");
+        					var height = res.height;
+        					$(".pokedex").append("<li>" + height + "</li>");
+
+        				// get weight and add to pokedex
+        				$(".pokedex").append("<h4>Weight</h4>");
+        					var weight = res.weight;
+        					$(".pokedex").append("<li>" + weight + "</li></ul>");
+					}, 'json');
+				}
+			</script>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="images">
+				<span></span>
+			</div>
+			<div class="pokedex">
+				
+			</div>
+		</div>
+		
+	</body>
+
+</html>
