@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ajax Posts</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+		<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+		
+		<script>
+            $(document).ready(function(){
+            	$('#post_form').submit(function(){
+            		// console.log('Message from doc.ready')
+
+            	$.post('/create', $(this).serialize(), function(res) {
+		        	$('#posts').html(res);
+
+		          	});
+            	 return false	
+        
+        </script>
+</head>
+<body>
+
+	 <div class="container"> 
+		
+		<div class="header">		
+			<h4>Ajax Posts</h4>
+			<ul>
+				<li>&#x21e6;</li>
+				<li>&#x21e8;</li>
+				<li>&#x2716;</li>
+				<li><img src="{{ url_for('static',filename='images/home.png') }}" alt="home icon"></li>
+			</ul>
+			<input type="text" id="nav" value="http://localhost/">
+			<input type="text" id="search">
+		</div>
+
+
+		<div class="main">
+			<h1>My Posts</h1>
+			<div id="posts">
+				{% for post in posts %}
+					<div class='post'>
+					<p>{{ post['description'] }}</p>
+					</div>
+				{% endfor %}
+			</div>
+
+			<form action="/create" method='post' id='post_form'>
+				<h4>Add a note:</h4>
+				<textarea id="newpost" name='newpost'>
+				
+				</textarea>
+				<input type="submit" value='Post It!'>
+			</form>
+
+		</div>
+			
+		<div class="footer"></div>
+	</div>
+</body>
+</html>
