@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>AjaxNotes</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+	<script>
+		 $(document).ready(function(){
+		 	// console.log('did jquery load?')
+		 	// $('#form_notes').submit(function(){
+		 	// 	console.log($(this).serialize());
+		 		// $.post('/create_json', $(this).serialize(), function(res) {
+	    // 			// var htmlStr=''
+	    // 			console.log(res)
+
+	    // 			$('#notes').html(res);
+     //       			// parse response into html string
+     //       			var htmlStr=''
+     //       			for(var i=0; i<res.length; i++) {
+     //       				htmlStr+="<div class='note' id=" + res[i].id + ">";
+     //       				htmlStr += "<h2 class='can_edit'>" + res[i].title + "</h2>";
+     //       				htmlStr += "<p class='can_edit'>" + res[i].description + "</p>";
+     //       				htmlStr+= "<p><a href={{ url_for('delete',id=" + res[i].id + ") }}>Delete</a></p>";
+     //       				htmlStr+="</div>";
+     //       				htmlStr+="<hr>";
+
+     //       				// replace html in notes div
+     //       				// can't use .append here or update will not work?
+	    //        			$('#notes').html(htmlStr);
+
+     //       			// 	// clear contents of text area input field
+     //       			// 	$('#newpost').val('');
+     //       			}
+          
+
+	    //        	}, 'json');	       			
+	    //    		// return false
+	    		// });
+		 	// });
+			// event listener for clicking in title or description field
+		 	$(".note:not(a, #btn_submit)").on('click',function(){
+		 		// get values for selected note
+		 		var id = $(this).attr('id');
+		 		var new_title = $(this).find('h2').html();
+		 		var desc = $(this).find('p').html();
+
+   				// copy title and description to input fields
+   				$('#title').val(new_title);
+   				$('#form_text').html(desc);
+   				// rename submit btn to update
+   				$('#btn_submit').val('Update');
+   				// change form action to update
+   				$('#form_notes').attr('action','/update/' + id);
+   				
+   	// 			// $('#btn_submit').on('click',function() {
+
+   	// 			// });
+		 	});
+
+		 });
+	</script>
+
+</head>
+<body>
+	<div class="main">
+		<h3>Notes</h3>
+		<hr>
+
+		<div id="notes">
+			<!-- dynamically created notes go here -->
+			{% for note in notes %}
+				<div class='note' id={{ note['id'] }}>
+					
+					<h2 class='can_edit'>{{ note['title'] }}</h2>
+					<p class='can_edit'>{{ note['description'] }}</p>
+					<p><a href="{{ url_for('delete',id=note['id']) }}">Delete {{ note['id'] }}</a></p>
+								
+					
+				</div>
+				<hr>
+			{% endfor %}
+		</div>
+
+		<!-- <form action='/create' id='form_notes' method='post'> -->
+		<form action="/create" method='post' id='form_notes'>
+			<textarea class='form_input' id='form_text' name='description' placeholder='Enter description here...'></textarea>
+			<input type="text" class='form_input' id = 'title' name='title' placeholder='Insert note title here'>
+			<input type="submit" class='btn_submit' id='btn_submit' value='Add Note'>
+
+		</form>
+	</div>
+</body>
+</html>
